@@ -2,25 +2,38 @@ package main;
 
 import model.Ware;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+import org.hibernate.Transaction;
+
+import java.util.List;
 
 
 public class Main {
     public static void main(String[] args) {
 
-        Ware ware = new Ware(1, 2, "sajt", 5, 1);
+        Ware ware = new Ware(3, 2, "sajt", 5, 1);
+        Transaction transaction = null;
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
 
+            session.save(ware);
 
-        Configuration configuration = new Configuration();
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-        SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(ware);
-        session.getTransaction().commit();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+            List<Ware> wares = session.createQuery("from Ware ", Ware.class).list();
+            wares.forEach(s -> System.out.println(s.getName()));
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
 
     }
 }
