@@ -9,19 +9,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import static shopthing.controller.ControllerUtil.*;
+
 
 public class MainApp extends Application {
 
+    public static Stage primaryStage;
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        primaryStage = stage;
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
-
-        stage.setTitle("JavaFX and Maven");
-        stage.setScene(scene);
-        stage.show();
+        setStylesheets(scene);
+        setFullscreen(stage, scene);
     }
 
     /**

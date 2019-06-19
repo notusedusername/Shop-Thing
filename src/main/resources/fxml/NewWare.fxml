@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="shopthing.controller.NewWareController"
+            prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <TextArea fx:id="command"/>
+    </top>
+    <center>
+        <TableView fx:id="table"/>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT">
+            <Button onAction="#handleDirectcommand" prefWidth="200" text="Hozzáad"/>
+            <Button onAction="#handleBack" prefWidth="200" text="Vissza"/>
+        </HBox>
+    </bottom>
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+    </padding>
+</BorderPane>
