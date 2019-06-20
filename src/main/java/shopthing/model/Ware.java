@@ -11,10 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Check(constraints = "PRICE > 0 AND ONSTORAGE >=0")
 public class Ware {
-
     @Id
-    private int id;
-
     @Column(unique = true)
     private Integer barcode;
 
@@ -23,12 +20,11 @@ public class Ware {
     private String name;
 
     @Column()
-    private int price;
+    private Integer price;
 
-    private int onStorage;
+    private Integer onStorage;
 
-    public Ware(int id, Integer barcode, String name, int price, int onStorage) {
-        this.id = id;
+    public Ware(Integer barcode, String name, Integer price, Integer onStorage) {
         this.barcode = barcode;
         this.name = name;
         this.price = price;
@@ -38,13 +34,6 @@ public class Ware {
     public Ware() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Integer getBarcode() {
         return barcode;
@@ -62,26 +51,25 @@ public class Ware {
         this.name = name;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public int getOnStorage() {
+    public Integer getOnStorage() {
         return onStorage;
     }
 
-    public void setOnStorage(int onStorage) {
+    public void setOnStorage(Integer onStorage) {
         this.onStorage = onStorage;
     }
 
     @Override
     public String toString() {
-        return "id=" + id +
-                ", barcode=" + barcode +
+        return ", barcode=" + barcode +
                 ", name=" + name + '\'' +
                 ", price=" + price +
                 ", onStorage=" + onStorage +

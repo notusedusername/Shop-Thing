@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="shopthing.controller.ShoppingController">
+    <top>
+        <VBox>
+            <Label id="title" text="VÁSÁRLÁS"/>
+        </VBox>
+    </top>
+    <center>
+        <HBox>
+            <TableView fx:id="table" onMouseClicked="#handleSelection" HBox.hgrow="ALWAYS"/>
+            <TableView fx:id="cart" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </center>
+    <bottom>
+        <VBox>
+            <Label text="Keresés:"/>
+            <TextField onKeyTyped="#handleTyping" fx:id="search"/>
+            <HBox>
+                <HBox fx:id="searchRoot" alignment="CENTER">
+                    <HBox alignment="CENTER">
+                        <Label text="Vonalkód:"/>
+                        <TextField fx:id="barcode" alignment="CENTER_RIGHT" disable="true"/>
+                    </HBox>
+                    <HBox alignment="CENTER">
+                        <Label text="Termék neve:"/>
+                        <TextField fx:id="name" alignment="CENTER" disable="true"/>
+                    </HBox>
+                    <HBox alignment="CENTER">
+                        <Label text="Ár: "/>
+                        <TextField fx:id="price" alignment="CENTER" disable="true"/>
+                    </HBox>
+                    <HBox alignment="CENTER">
+                        <Label text="db: "/>
+                        <TextField fx:id="boughtPieces" alignment="CENTER"/>
+                    </HBox>
+                </HBox>
+            </HBox>
+            <HBox alignment="TOP_RIGHT">
+                <Label alignment="CENTER_LEFT" prefHeight="16.0" prefWidth="152.0" text="Jelenlegi összeg: "/>
+                <HBox>
+                    <Label fx:id="totalCost" alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="121.0" text="0"
+                           textAlignment="RIGHT"/>
+                    <Label text="Ft"/>
+                </HBox>
+            </HBox>
+            <HBox alignment="CENTER_LEFT">
+                <Button fx:id="addToCart" disable="true" onAction="#handleAddToCart" prefWidth="200" text="Hozzáad"/>
+                <Button fx:id="endShopping" disable="true" onAction="#handlePaying" prefWidth="200" text="Fizet"/>
+                <Button onAction="#handleBackToMain" prefWidth="200" text="Vissza"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

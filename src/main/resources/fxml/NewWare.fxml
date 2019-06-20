@@ -12,16 +12,28 @@
             fx:controller="shopthing.controller.NewWareController"
             prefHeight="400.0" prefWidth="600.0">
     <top>
-        <TextArea fx:id="command"/>
+
     </top>
     <center>
-        <TableView fx:id="table"/>
+        <TableView fx:id="table" onMouseClicked="#handleSelection"/>
     </center>
     <bottom>
-        <HBox alignment="CENTER_RIGHT">
-            <Button onAction="#handleDirectcommand" prefWidth="200" text="Hozzáad"/>
-            <Button onAction="#handleBack" prefWidth="200" text="Vissza"/>
-        </HBox>
+        <VBox>
+            <HBox>
+                <Label text="Vonalkód:"/>
+                <TextField fx:id="barcode"/>
+                <Label text="Termék neve: "/>
+                <TextField fx:id="name"/>
+                <Label text="Ár: "/>
+                <TextField fx:id="price"/>
+                <Label text="Beszerzett db: "/>
+                <TextField fx:id="newAmount"/>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT">
+                <Button onAction="#handleAdding" prefWidth="200" text="Hozzáad"/>
+                <Button onAction="#handleBack" prefWidth="200" text="Vissza"/>
+            </HBox>
+        </VBox>
     </bottom>
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>

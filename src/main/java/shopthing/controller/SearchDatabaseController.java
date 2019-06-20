@@ -1,7 +1,7 @@
 package shopthing.controller;
 
 import static hibernate.H2Util.*;
-import static shopthing.controller.ControllerUtil.*;
+import static shopthing.controller.util.ControllerUtil.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,6 +48,7 @@ public class SearchDatabaseController {
         textFieldList.add(name);
         textFieldList.add(price);
         textFieldList.add(onStorage);
+        handleListing(new ActionEvent());
     }
 
     public void handleSearch(ActionEvent actionEvent) {
@@ -72,7 +73,7 @@ public class SearchDatabaseController {
 
     public void handleListing(ActionEvent actionEvent) {
         list.getChildren().removeAll();
-        ObservableList<Ware> ListOfAllRecord = selectRecords(null);
+        ObservableList<Ware> ListOfAllRecord = runQuery(null);
         setTableView(ListOfAllRecord, table);
 
 
@@ -92,18 +93,18 @@ public class SearchDatabaseController {
         setFullscreen(stage, scene);
     }
 
-    private ObservableList<Ware> searchWithParameters(ArrayList<TextField> searchConstraints) {
+    protected ObservableList<Ware> searchWithParameters(ArrayList<TextField> searchConstraints) {
         StringBuilder queryCommand = new StringBuilder("FROM Ware WHERE ");
         for (TextField i : searchConstraints) {
             queryCommand.append(i.getId()).append(" = ");
             if (i.getId().equals("name")) {
-                queryCommand.append("\'").append(i.getText()).append("\'").append(" AND ");
+                queryCommand.append("\'").append(i.getText().toUpperCase()).append("\'").append(" AND ");
             } else {
                 queryCommand.append(i.getText()).append(" AND ");
             }
         }
         queryCommand.delete(queryCommand.length() - 5, queryCommand.length())
                 .append("ORDER BY name ASC");
-        return selectRecords(queryCommand.toString());
+        return runQuery(queryCommand.toString());
     }
 }

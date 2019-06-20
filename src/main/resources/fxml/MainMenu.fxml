@@ -19,6 +19,7 @@
             <Button fx:id="newWare" onAction="#handleNewWare" prefWidth="500" text="Új áru"/>
             <Button fx:id="shopping" onAction="#handleShopping" prefWidth="500" text="Vásárlás"/>
             <Button fx:id="search" onAction="#handleSearch" prefWidth="500" text="Keres"/>
+            <Button fx:id="delete" onAction="#handleDelete" prefWidth="500" text="ADATMÓDOSÍTÁS"/>
             <Button fx:id="exit" onAction="#handleExit" prefWidth="500" text="Kilépés"/>
             <opaqueInsets>
                 <Insets/>

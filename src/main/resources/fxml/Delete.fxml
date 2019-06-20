@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="shopthing.controller.DeleteController">
+    <center>
+        <VBox>
+            <TableView fx:id="table" onMouseClicked="#handleSelect"/>
+            <HBox>
+                <Label text="Vonalkód:"/>
+                <TextField fx:id="barcode" disable="true"/>
+                <CheckBox fx:id="barCodeLock" selected="true" onMouseClicked="#handleBarCodeLock"/>
+                <Label text="Termék neve: "/>
+                <TextField fx:id="name"/>
+                <CheckBox fx:id="nameLock" onMouseClicked="#handleNameLock"/>
+                <Label text="Ár: "/>
+                <TextField fx:id="price"/>
+                <Label text="Raktáron (db): "/>
+                <TextField fx:id="onStorage"/>
+            </HBox>
+            <HBox>
+                <Button fx:id="deleteButton" disable="true" onAction="#handleDeleteRecord" text="SOR TÖRLÉSE"/>
+                <CheckBox fx:id="securePin" text="Pipáld be a törlés engedélyezéséhez"
+                          onMouseClicked="#handleSecurePin"/>
+
+            </HBox>
+
+            <HBox alignment="CENTER_RIGHT">
+                <Button fx:id="changeValues" onAction="#handleChangeValues" text="ÉRTÉKEK LECSERLÉLÉSE"/>
+                <Button onAction="#handleBacktoMain" text="Vissza"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

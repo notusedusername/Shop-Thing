@@ -1,12 +1,19 @@
-package shopthing.controller;
+package shopthing.controller.util;
 
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import shopthing.model.Ware;
+
+import java.io.IOException;
+
+import static shopthing.controller.util.PopupUtil.getMessageType;
 
 
 public class ControllerUtil {
@@ -26,9 +33,6 @@ public class ControllerUtil {
     public static void setTableView(ObservableList<Ware> listOfItems, TableView<Ware> table) {
         table.setItems(listOfItems);
 
-        TableColumn<Ware, Integer> productId = new TableColumn<Ware, Integer>("ID");
-        productId.setCellValueFactory(new PropertyValueFactory("id"));
-
         TableColumn<Ware, Integer> productBarCode = new TableColumn<Ware, Integer>("Vonalkód");
         productBarCode.setCellValueFactory(new PropertyValueFactory("barcode"));
 
@@ -41,8 +45,9 @@ public class ControllerUtil {
         TableColumn<Ware, Integer> productOnStorage = new TableColumn<Ware, Integer>("Raktáron (db)");
         productOnStorage.setCellValueFactory(new PropertyValueFactory("onStorage"));
 
-        table.getColumns().setAll(productId, productBarCode, productName, productPrice, productOnStorage);
+        table.getColumns().setAll(productBarCode, productName, productPrice, productOnStorage);
 
     }
+
 
 }

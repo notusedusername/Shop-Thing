@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static shopthing.controller.ControllerUtil.*;
+import static shopthing.controller.util.ControllerUtil.*;
 
 public class MainMenuController implements Initializable {
 
@@ -40,6 +40,17 @@ public class MainMenuController implements Initializable {
     }
 
     public void handleShopping(ActionEvent actionEvent) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/Shopping.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene scene = new Scene(root);
+        setStylesheets(scene);
+        Stage stage = MainApp.primaryStage;
+        setFullscreen(stage, scene);
     }
 
     public void handleSearch(ActionEvent actionEvent) {
@@ -60,4 +71,17 @@ public class MainMenuController implements Initializable {
         System.exit(0);
     }
 
+    public void handleDelete(ActionEvent actionEvent) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/Delete.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Scene scene = new Scene(root);
+        setStylesheets(scene);
+        Stage stage = MainApp.primaryStage;
+        setFullscreen(stage, scene);
+    }
 }

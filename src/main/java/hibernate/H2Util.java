@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import shopthing.model.Ware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import java.util.List;
 
 
@@ -12,7 +15,7 @@ public class H2Util {
 
     private static Transaction transaction;
 
-    public static void persist(Ware ware) {
+    public static void persist(Ware ware) throws PersistenceException {
         transaction = null;
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -22,11 +25,15 @@ public class H2Util {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            if (e instanceof PersistenceException) {
+                throw e;
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static ObservableList<Ware> selectRecords(String command) {
+    public static ObservableList<Ware> runQuery(String command) {
         List<Ware> wares = null;
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             if (command == null || command.equals("")) {
@@ -42,4 +49,21 @@ public class H2Util {
         }
         return FXCollections.observableList(wares);
     }
+
+    public static Integer updateTable(String command) {
+        Query query = null;
+        try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            query = session.createQuery(command);
+            return query.executeUpdate();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 }

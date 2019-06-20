@@ -2,14 +2,16 @@ package shopthing.controller;
 
 import javafx.application.Application;
 
+import static hibernate.H2Util.runQuery;
 import static javafx.application.Application.launch;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
-import static shopthing.controller.ControllerUtil.*;
+import static shopthing.controller.util.ControllerUtil.*;
 
 
 public class MainApp extends Application {
@@ -17,6 +19,7 @@ public class MainApp extends Application {
     public static Stage primaryStage;
     @Override
     public void start(Stage stage) throws Exception {
+        setTableView(runQuery(null), new TableView<>());
         primaryStage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
 
