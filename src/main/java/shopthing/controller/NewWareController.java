@@ -25,7 +25,7 @@ public class NewWareController {
 
     public void handleDirectcommand(ActionEvent actionEvent) {
         String directCommand = command.getText();
-        ObservableList<Ware> wares = selectAllRecord(directCommand);
+        ObservableList<Ware> wares = selectRecords(directCommand);
 
         setTableView(wares, table);
     }

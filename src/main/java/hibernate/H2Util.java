@@ -26,13 +26,13 @@ public class H2Util {
         }
     }
 
-    public static ObservableList<Ware> selectAllRecord(String command) {
+    public static ObservableList<Ware> selectRecords(String command) {
         List<Ware> wares = null;
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             if (command == null || command.equals("")) {
                 wares = session.createQuery("from Ware ", Ware.class).list();
             } else {
-                session.createQuery(command).list();
+                wares = session.createQuery(command, Ware.class).list();
             }
         } catch (Exception e) {
             if (transaction != null) {

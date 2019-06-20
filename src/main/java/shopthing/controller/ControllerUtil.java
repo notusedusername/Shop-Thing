@@ -44,4 +44,5 @@ public class ControllerUtil {
         table.getColumns().setAll(productId, productBarCode, productName, productPrice, productOnStorage);
 
     }
+
 }

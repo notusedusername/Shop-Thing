@@ -2,22 +2,50 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.TableView?>
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="shopthing.controller.SearchDatabaseController">
+<BorderPane prefHeight="400.0"
+            prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="shopthing.controller.SearchDatabaseController">
     <center>
-        <VBox fx:id="list">
-            <TableView fx:id="table"></TableView>
+        <VBox fx:id="list" alignment="CENTER">
+            <Label text="KERESÉS SZŰKÍTÉSE"/>
+            <HBox fx:id="searchRoot" alignment="CENTER">
+                <HBox alignment="CENTER">
+                    <Label text="Vonalkód:"/>
+                    <TextField fx:id="barcode" alignment="CENTER_RIGHT"/>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <Label text="Termék neve:"/>
+                    <TextField fx:id="name" alignment="CENTER"/>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <Label text="Ár: "/>
+                    <TextField fx:id="price" alignment="CENTER"/>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <Label alignment="CENTER" text="Raktáron (db): "/>
+                    <TextField fx:id="onStorage"/>
+                </HBox>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT">
+                <Button text="Keres" fx:id="searchButton" prefWidth="200" onAction="#handleSearch"/>
+                <Button text="Mezők ürítése" fx:id="clearButton" prefWidth="200" onAction="#handleFieldClear"/>
+            </HBox>
+            <TableView fx:id="table"/>
         </VBox>
     </center>
 
     <bottom>
         <HBox alignment="CENTER_RIGHT">
-            <Button onAction="#handleListing" prefWidth="200" text="Listáz"/>
+            <Button onAction="#handleListing" prefWidth="200" text="Mindet Listáz"/>
             <Button onAction="#handleBack" prefWidth="200" text="Vissza"/>
         </HBox>
     </bottom>
