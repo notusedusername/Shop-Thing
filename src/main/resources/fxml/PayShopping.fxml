@@ -15,9 +15,10 @@
         <Label text="FIZETÉS" styleClass="title"/>
     </top>
     <center>
-        <VBox spacing="10.0">
-            <Label text="Fizetendő:"/>
+        <VBox spacing="10.0" id="payBox">
+            <Label text="Fizetendő:" id="payText"/>
             <Label fx:id="totalCost" id="payTotal"/>
+            <TableView fx:id="cart"/>
         </VBox>
     </center>
     <bottom>

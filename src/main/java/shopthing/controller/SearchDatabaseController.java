@@ -96,11 +96,11 @@ public class SearchDatabaseController {
     protected ObservableList<Ware> searchWithParameters(ArrayList<TextField> searchConstraints) {
         StringBuilder queryCommand = new StringBuilder("FROM Ware WHERE ");
         for (TextField i : searchConstraints) {
-            queryCommand.append(i.getId()).append(" = ");
+            queryCommand.append(i.getId());
             if (i.getId().equals("name")) {
-                queryCommand.append("\'").append(i.getText().toUpperCase()).append("\'").append(" AND ");
+                queryCommand.append(" LIKE \'%").append(i.getText().toUpperCase()).append("%\'").append(" AND ");
             } else {
-                queryCommand.append(i.getText()).append(" AND ");
+                queryCommand.append(" = ").append(i.getText()).append(" AND ");
             }
         }
         queryCommand.delete(queryCommand.length() - 5, queryCommand.length())

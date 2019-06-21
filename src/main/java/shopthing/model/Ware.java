@@ -22,6 +22,7 @@ public class Ware {
     @Column()
     private Integer price;
 
+    @Column
     private Integer onStorage;
 
     public Ware(Integer barcode, String name, Integer price, Integer onStorage) {

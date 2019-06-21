@@ -26,3 +26,12 @@
     -fx-font-size: 80;
     -fx-font-weight: none;
 }
+
+#payTotal, #payText {
+    -fx-font-weight: bold;
+    -fx-font-size: 30;
+}
+
+#payText {
+    -fx-underline: true;
+}

@@ -2,7 +2,6 @@ package shopthing.controller;
 
 import static hibernate.H2Util.*;
 import static shopthing.controller.util.ControllerUtil.setTableView;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 import shopthing.controller.util.Popup;
 import shopthing.model.Ware;
 
-import javax.tools.Tool;
 
 public class DeleteController {
     @FXML
@@ -37,12 +35,10 @@ public class DeleteController {
     private Ware newKnownWare = null;
 
     public void initialize() {
-        ;
         setTableView(runQuery(null), table);
         barCodeLock.setTooltip(new Tooltip("A vonalkód módosítását engedélyezi."));
         nameLock.setTooltip(new Tooltip("A név módosítását engedélyezi."));
-
-
+        new Popup("Figyelem! Innen módosítani tudod az adatbázist.", Alert.AlertType.INFORMATION);
     }
 
     public void handleSelect(MouseEvent mouseEvent) {
@@ -57,39 +53,43 @@ public class DeleteController {
 
     public void handleChangeValues(ActionEvent actionEvent) {
         if (newKnownWare != null) {
-            StringBuilder changeCommand = new StringBuilder();
-            try {
-                if (barCodeLock.isSelected()) {
-                    changeCommand.append("UPDATE Ware set name = \'")
-                            .append(name.getText().toUpperCase())
-                            .append("\' WHERE barcode = ")
+            if (new Popup("Biztosan módosítod az értékeket?", Alert.AlertType.CONFIRMATION).getResult()) {
+                StringBuilder changeCommand = new StringBuilder();
+                try {
+                    if (barCodeLock.isSelected()) {
+                        changeCommand.append("UPDATE Ware set name = \'")
+                                .append(name.getText().toUpperCase())
+                                .append("\' WHERE barcode = ")
+                                .append(barcode.getText());
+                        updateTable(changeCommand.toString());
+                    } else if (nameLock.isSelected()) {
+                        changeCommand.append("UPDATE Ware set barcode = ")
+                                .append(barcode.getText())
+                                .append(" WHERE name = \'")
+                                .append(name.getText().toUpperCase())
+                                .append("\'");
+                        updateTable(changeCommand.toString());
+                    }
+
+                    changeCommand.delete(0, changeCommand.length())
+                            .append("UPDATE Ware set price = ")
+                            .append(price.getText())
+                            .append("WHERE barcode = ")
                             .append(barcode.getText());
                     updateTable(changeCommand.toString());
-                } else if (nameLock.isSelected()) {
-                    changeCommand.append("UPDATE Ware set barcode = ")
-                            .append(barcode.getText())
-                            .append(" WHERE name = \'")
-                            .append(name.getText().toUpperCase())
-                            .append("\'");
+
+                    changeCommand.delete(0, changeCommand.length())
+                            .append("UPDATE Ware set onStorage = ")
+                            .append(onStorage.getText())
+                            .append("WHERE barcode = ")
+                            .append(barcode.getText());
                     updateTable(changeCommand.toString());
+                    setTableView(runQuery(null), table);
+                } catch (Exception e) {
+                    new Popup("A művelet nem sikerült, létező név/kód!", Alert.AlertType.WARNING);
                 }
 
-                changeCommand.delete(0, changeCommand.length())
-                        .append("UPDATE Ware set price = ")
-                        .append(price.getText())
-                        .append("WHERE barcode = ")
-                        .append(barcode.getText());
-                updateTable(changeCommand.toString());
 
-                changeCommand.delete(0, changeCommand.length())
-                        .append("UPDATE Ware set onStorage = ")
-                        .append(onStorage.getText())
-                        .append("WHERE barcode = ")
-                        .append(barcode.getText());
-                updateTable(changeCommand.toString());
-                setTableView(runQuery(null), table);
-            } catch (Exception e) {
-                new Popup("A művelet nem sikerült, figyelj oda, nehogy már létező terméknevet akarj megadni!", Alert.AlertType.WARNING);
             }
         } else {
             new Popup("Hiányzó érték!", Alert.AlertType.WARNING);
@@ -98,10 +98,12 @@ public class DeleteController {
 
     public void handleDeleteRecord(ActionEvent actionEvent) {
         if (newKnownWare != null) {
-            StringBuilder changeCommand = new StringBuilder("DELETE FROM Ware WHERE barcode = ")
-                    .append(barcode.getText());
-            updateTable(changeCommand.toString());
-            setTableView(runQuery(null), table);
+            if (new Popup("Biztosan törlöd? Nem visszavonható művelet!", Alert.AlertType.CONFIRMATION).getResult()) {
+                StringBuilder changeCommand = new StringBuilder("DELETE FROM Ware WHERE barcode = ")
+                        .append(barcode.getText());
+                updateTable(changeCommand.toString());
+                setTableView(runQuery(null), table);
+            }
         } else {
             new Popup("Nem jelöltél ki semmit törlésre!", Alert.AlertType.WARNING);
         }

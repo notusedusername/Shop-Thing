@@ -1,10 +1,12 @@
 package hibernate;
 
+import javafx.scene.control.Alert;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import shopthing.controller.util.Popup;
 
 import java.io.File;
 
@@ -45,11 +47,10 @@ public class HibernateUtils {
     private static File getPropertyFile() {
         File file = null;
         try {
-            file = new File("db.properties");
+            file = new File(System.getProperty("user.home") + "/ShopThing/db.properties");
             if (file.exists()) {
-            } else {
-                file = null;
             }
+            file = null;
         } catch (Exception e) {
             e.printStackTrace();
         }

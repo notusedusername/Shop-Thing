@@ -77,6 +77,11 @@ public class NewWareController {
             persist(unknownProduct);
         } catch (PersistenceException e) {
             updateKnownProduct();
+        } finally {
+            barcode.setText("");
+            name.setText("");
+            price.setText("");
+            newAmount.setText("");
         }
 
     }
@@ -103,7 +108,7 @@ public class NewWareController {
                 .append(previousStorage + Integer.parseInt(newAmount.getText()))
                 .append("WHERE barcode = ")
                 .append(barcode.getText());
-        updateTable(updateQuery.toString());
+        new Popup(updateTable(updateQuery.toString()).toString() + " sor módosult", Alert.AlertType.INFORMATION);
     }
 
 

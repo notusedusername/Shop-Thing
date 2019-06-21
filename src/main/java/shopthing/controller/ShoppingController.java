@@ -159,13 +159,15 @@ public class ShoppingController {
 
     public void handleDeleteCartItem(ActionEvent actionEvent) {
         if (selectedItem != null) {
-            backToStorage(selectedItem);
-            int newCost = Integer.parseInt(totalCost.getText()) - (selectedItem.getPrice() * selectedItem.getOnStorage());
-            totalCost.setText(Integer.toString(newCost));
-            Cart.getCart().remove(selectedItem);
-            setTableView(Cart.getCart(), cart);
-            deleteCartItem.disableProperty().setValue(true);
-            switchPayability();
+            if (new Popup("Biztosan kiveszed a kijelölt elemet a kosárból?", Alert.AlertType.CONFIRMATION).getResult()) {
+                backToStorage(selectedItem);
+                int newCost = Integer.parseInt(totalCost.getText()) - (selectedItem.getPrice() * selectedItem.getOnStorage());
+                totalCost.setText(Integer.toString(newCost));
+                Cart.getCart().remove(selectedItem);
+                setTableView(Cart.getCart(), cart);
+                deleteCartItem.disableProperty().setValue(true);
+                switchPayability();
+            }
         }
     }
 
@@ -178,6 +180,7 @@ public class ShoppingController {
                         backToStorage(selectedItem);
                     });
                     Cart.setCart(new ArrayList<>());
+                    totalCost.setText(Integer.toString(0));
                     setTableView(Cart.getCart(), cart);
                 }
             } catch (Exception e) {

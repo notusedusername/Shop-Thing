@@ -2,6 +2,8 @@ package hibernate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import shopthing.controller.util.Popup;
 import shopthing.model.Ware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -21,6 +23,7 @@ public class H2Util {
             transaction = session.beginTransaction();
             session.save(ware);
             transaction.commit();
+            new Popup("Új sor hozzáadva.", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -28,7 +31,7 @@ public class H2Util {
             if (e instanceof PersistenceException) {
                 throw e;
             } else {
-                e.printStackTrace();
+                new Popup("HIBA:" + e.getStackTrace().toString(), Alert.AlertType.ERROR);
             }
         }
     }

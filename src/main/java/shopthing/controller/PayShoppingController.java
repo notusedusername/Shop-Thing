@@ -3,14 +3,19 @@ package shopthing.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import shopthing.model.Cart;
 import shopthing.model.Ware;
-
 import java.util.ArrayList;
+
+import static shopthing.controller.util.ControllerUtil.*;
 
 public class PayShoppingController {
     @FXML
     Label totalCost;
+
+    @FXML
+    TableView<Ware> cart;
 
     @FXML
     public void initialize() {
@@ -19,6 +24,7 @@ public class PayShoppingController {
             cost += i.getPrice() * i.getOnStorage();
         }
         totalCost.setText(cost + " Ft");
+        setTableView(Cart.getCart(), cart);
     }
 
     public void handlecommitTransaction(ActionEvent actionEvent) {
