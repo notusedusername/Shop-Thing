@@ -31,6 +31,7 @@ public class HibernateUtils {
             } catch (Exception e) {
                 e.printStackTrace();
                 if (registry != null) {
+                    new Popup("Nem megfelelő properties fájl!", Alert.AlertType.ERROR);
                     StandardServiceRegistryBuilder.destroy(registry);
                 }
             }
@@ -49,8 +50,9 @@ public class HibernateUtils {
         try {
             file = new File(System.getProperty("user.home") + "/ShopThing/db.properties");
             if (file.exists()) {
+            } else {
+                file = null;
             }
-            file = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
