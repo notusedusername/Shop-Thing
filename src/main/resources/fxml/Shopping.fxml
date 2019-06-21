@@ -8,44 +8,52 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<BorderPane styleClass="borderpane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="shopthing.controller.ShoppingController">
     <top>
         <VBox>
-            <Label id="title" text="VÁSÁRLÁS"/>
+            <Label text="Vásárlás" styleClass="title"/>
         </VBox>
     </top>
     <center>
-        <HBox>
-            <TableView fx:id="table" onMouseClicked="#handleSelection" HBox.hgrow="ALWAYS"/>
-            <TableView fx:id="cart" onMouseClicked="#handleCartSelection" HBox.hgrow="ALWAYS"/>
-        </HBox>
+        <VBox>
+            <GridPane alignment="CENTER">
+                <Label text="RAKTÁR" id="shopStorage" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+                <Label text="KOSÁR" id="shopCart" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS"/>
+            </GridPane>
+            <HBox spacing="10.0">
+                <TableView fx:id="table" onMouseClicked="#handleSelection" HBox.hgrow="ALWAYS"/>
+                <TableView fx:id="cart" onMouseClicked="#handleCartSelection" HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
     </center>
     <bottom>
-        <VBox>
+        <VBox spacing="10.0">
             <Label text="Keresés:"/>
             <TextField onKeyTyped="#handleTyping" fx:id="search"/>
-            <HBox>
+            <HBox spacing="10.0">
                 <HBox fx:id="searchRoot" alignment="CENTER">
-                    <HBox alignment="CENTER">
+                    <HBox alignment="CENTER" spacing="10.0">
                         <Label text="Vonalkód:"/>
                         <TextField fx:id="barcode" alignment="CENTER_RIGHT" disable="true"/>
                     </HBox>
-                    <HBox alignment="CENTER">
+                    <HBox alignment="CENTER" spacing="10.0">
                         <Label text="Termék neve:"/>
                         <TextField fx:id="name" alignment="CENTER" disable="true"/>
                     </HBox>
-                    <HBox alignment="CENTER">
+                    <HBox alignment="CENTER" spacing="10.0">
                         <Label text="Ár: "/>
                         <TextField fx:id="price" alignment="CENTER" disable="true"/>
                     </HBox>
-                    <HBox alignment="CENTER">
+                    <HBox alignment="CENTER" spacing="10.0">
                         <Label text="db: "/>
                         <TextField fx:id="boughtPieces" alignment="CENTER"/>
                     </HBox>
                 </HBox>
             </HBox>
-            <HBox alignment="TOP_RIGHT">
+            <HBox alignment="TOP_RIGHT" spacing="10.0">
                 <Label alignment="CENTER_LEFT" prefHeight="16.0" prefWidth="152.0" text="Jelenlegi összeg: "/>
                 <HBox>
                     <Label fx:id="totalCost" alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="121.0" text="0"
@@ -53,15 +61,25 @@
                     <Label text="Ft"/>
                 </HBox>
             </HBox>
-            <HBox alignment="CENTER_LEFT">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
                 <Button fx:id="addToCart" disable="true" onAction="#handleAddToCart" prefWidth="200" text="Hozzáad"/>
                 <Button fx:id="endShopping" disable="true" onAction="#handlePaying" prefWidth="200" text="Fizet"/>
                 <Button onAction="#handleBackToMain" prefWidth="200" text="Vissza"/>
-                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-                    <Button fx:id="deleteCartItem" disable="true" onAction="#handleDeleteCartItem" prefWidth="200"
-                            text="Töröl"/>
+                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="10.0">
+                    <Button fx:id="deleteAllCartItem" styleClass="dangerousAction" onAction="#handleDeleteAllCartItem"
+                            prefWidth="200"
+                            text="MINDET TÖRÖL"/>
+                    <Button fx:id="deleteCartItem" disable="true" styleClass="dangerousAction"
+                            onAction="#handleDeleteCartItem" prefWidth="200"
+                            text="TÖRÖL"/>
                 </HBox>
             </HBox>
         </VBox>
     </bottom>
+    <opaqueInsets>
+        <Insets topRightBottomLeft="50.0"/>
+    </opaqueInsets>
+    <padding>
+        <Insets topRightBottomLeft="50.0"/>
+    </padding>
 </BorderPane>

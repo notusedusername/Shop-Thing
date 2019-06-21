@@ -1,4 +1,28 @@
 
+.borderpane {
+    -fx-background-image: url("background.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+    -fx-background-color: rgb(255, 213, 125);
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
 .button {
     -fx-font-weight: bold;
+}
+
+.dangerousAction {
+    -fx-text-fill: red;
+}
+
+.label {
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+}
+
+.title {
+    -fx-text-fill: #0da0ff;
+    -fx-font-style: italic;
+    -fx-font-size: 80;
+    -fx-font-weight: none;
 }

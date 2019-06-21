@@ -7,19 +7,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane id="root" prefHeight="543.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+<BorderPane styleClass="borderpane" id="Mainroot" prefHeight="543.0" prefWidth="705.0"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="shopthing.controller.MainMenuController">
     <top>
         <HBox alignment="CENTER">
-            <Label fx:id="label" alignment="CENTER" text="lol" textAlignment="CENTER"/>
+            <Label text="FŐMENÜ" styleClass="title"/>
         </HBox>
     </top>
     <center>
-        <VBox alignment="CENTER" prefHeight="721.0" prefWidth="854.0">
+        <VBox spacing="10.0" alignment="CENTER" prefHeight="721.0" prefWidth="854.0">
             <Button fx:id="newWare" onAction="#handleNewWare" prefWidth="500" text="Új áru"/>
             <Button fx:id="shopping" onAction="#handleShopping" prefWidth="500" text="Vásárlás"/>
             <Button fx:id="search" onAction="#handleSearch" prefWidth="500" text="Keres"/>
-            <Button fx:id="delete" onAction="#handleDelete" prefWidth="500" text="ADATMÓDOSÍTÁS"/>
+            <Button fx:id="delete" onAction="#handleDelete" prefWidth="500" text="ADATMÓDOSÍTÁS"
+                    styleClass="dangerousAction"/>
             <Button fx:id="exit" onAction="#handleExit" prefWidth="500" text="Kilépés"/>
             <opaqueInsets>
                 <Insets/>
@@ -27,9 +29,9 @@
         </VBox>
     </center>
     <opaqueInsets>
-        <Insets top="50.0"/>
+        <Insets topRightBottomLeft="50.0"/>
     </opaqueInsets>
     <padding>
-        <Insets top="50.0"/>
+        <Insets topRightBottomLeft="50.0"/>
     </padding>
 </BorderPane>

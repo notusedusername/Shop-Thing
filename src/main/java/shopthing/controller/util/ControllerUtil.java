@@ -2,11 +2,13 @@ package shopthing.controller.util;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import shopthing.model.Ware;
 
@@ -15,8 +17,13 @@ public class ControllerUtil {
     public static void setFullscreen(Stage stage, Scene scene) {
         stage.setTitle("ShopThing");
         stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint("");
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        stage.setX(bounds.getMinX());
+        stage.setY(bounds.getMinY());
+        stage.setWidth(bounds.getWidth());
+        stage.setHeight(bounds.getHeight());
         stage.show();
     }
 

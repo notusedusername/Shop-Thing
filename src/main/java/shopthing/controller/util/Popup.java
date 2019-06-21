@@ -20,6 +20,7 @@ public class Popup {
         alert.setContentText(message);
         alert.initOwner(MainApp.primaryStage);
 
+
         if (type == Alert.AlertType.CONFIRMATION) {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
@@ -27,6 +28,8 @@ public class Popup {
             } else {
                 confirmationResult = false;
             }
+        } else {
+            alert.showAndWait();
         }
     }
 

@@ -9,15 +9,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0"
+<BorderPane styleClass="borderpane" prefHeight="400.0"
             prefWidth="600.0"
             xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="shopthing.controller.SearchDatabaseController">
+    <top>
+        <Label text="Keresés" styleClass="title"/>
+    </top>
     <center>
-        <VBox fx:id="list" alignment="CENTER">
+        <VBox fx:id="list" alignment="CENTER" spacing="10.0">
             <Label text="KERESÉS SZŰKÍTÉSE"/>
-            <HBox fx:id="searchRoot" alignment="CENTER">
+            <HBox fx:id="searchRoot" alignment="CENTER" spacing="10.0">
                 <HBox alignment="CENTER">
                     <Label text="Vonalkód:"/>
                     <TextField fx:id="barcode" alignment="CENTER_RIGHT"/>
@@ -35,7 +38,7 @@
                     <TextField fx:id="onStorage"/>
                 </HBox>
             </HBox>
-            <HBox alignment="CENTER_RIGHT">
+            <HBox spacing="10.0" alignment="CENTER_RIGHT">
                 <Button text="Keres" fx:id="searchButton" prefWidth="200" onAction="#handleSearch"/>
                 <Button text="Mezők ürítése" fx:id="clearButton" prefWidth="200" onAction="#handleFieldClear"/>
             </HBox>
@@ -44,13 +47,16 @@
     </center>
 
     <bottom>
-        <HBox alignment="CENTER_RIGHT">
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
             <Button onAction="#handleListing" prefWidth="200" text="Mindet Listáz"/>
             <Button onAction="#handleBack" prefWidth="200" text="Vissza"/>
         </HBox>
     </bottom>
+    <opaqueInsets>
+        <Insets topRightBottomLeft="50.0"/>
+    </opaqueInsets>
     <padding>
-        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+        <Insets topRightBottomLeft="50.0"/>
     </padding>
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -9,15 +10,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+<BorderPane styleClass="borderpane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="shopthing.controller.DeleteController">
+    <top>
+        <Label text="Adatmódosítás" styleClass="title"/>
+    </top>
     <center>
-        <VBox>
+        <VBox spacing="10.0">
             <TableView fx:id="table" onMouseClicked="#handleSelect"/>
-            <HBox>
+            <HBox spacing="10.0">
                 <Label text="Vonalkód:"/>
                 <TextField fx:id="barcode" disable="true"/>
-                <CheckBox fx:id="barCodeLock" selected="true" onMouseClicked="#handleBarCodeLock"/>
+                <CheckBox fx:id="barCodeLock" onMouseClicked="#handleBarCodeLock" selected="true"/>
                 <Label text="Termék neve: "/>
                 <TextField fx:id="name"/>
                 <CheckBox fx:id="nameLock" onMouseClicked="#handleNameLock"/>
@@ -26,18 +30,26 @@
                 <Label text="Raktáron (db): "/>
                 <TextField fx:id="onStorage"/>
             </HBox>
-            <HBox>
-                <Button fx:id="deleteButton" disable="true" onAction="#handleDeleteRecord" text="SOR TÖRLÉSE"/>
-                <CheckBox fx:id="securePin" text="Pipáld be a törlés engedélyezéséhez"
-                          onMouseClicked="#handleSecurePin"/>
+            <HBox spacing="10.0">
+                <Button fx:id="deleteButton" styleClass="dangerousAction" disable="true" onAction="#handleDeleteRecord"
+                        text="SOR TÖRLÉSE"/>
+                <CheckBox fx:id="securePin" onMouseClicked="#handleSecurePin"
+                          text="Pipáld be a törlés engedélyezéséhez"/>
 
             </HBox>
 
-            <HBox alignment="CENTER_RIGHT">
-                <Button fx:id="changeValues" onAction="#handleChangeValues" text="ÉRTÉKEK LECSERLÉLÉSE"/>
+            <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button fx:id="changeValues" styleClass="dangerousAction" onAction="#handleChangeValues"
+                        text="ÉRTÉKEK LECSERLÉLÉSE"/>
                 <Button onAction="#handleBacktoMain" text="Vissza"/>
             </HBox>
         </VBox>
     </center>
+    <opaqueInsets>
+        <Insets topRightBottomLeft="50.0"/>
+    </opaqueInsets>
+    <padding>
+        <Insets topRightBottomLeft="50.0"/>
+    </padding>
 
 </BorderPane>

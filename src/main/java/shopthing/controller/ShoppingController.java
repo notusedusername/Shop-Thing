@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static hibernate.H2Util.runQuery;
+import static hibernate.H2Util.updateTable;
 import static shopthing.controller.util.ControllerUtil.*;
 
 public class ShoppingController {
@@ -54,7 +55,13 @@ public class ShoppingController {
         textFieldList.add(barcode);
         textFieldList.add(name);
         textFieldList.add(price);
+        int cost = 0;
+        for (Ware i : Cart.getCart()) {
+            cost += i.getPrice() * i.getOnStorage();
+        }
+        totalCost.setText(Integer.toString(cost));
         setTableView(runQuery(null), table);
+        setTableView(Cart.getCart(), cart);
     }
 
     public void handleSelection(MouseEvent mouseEvent) {
@@ -65,6 +72,7 @@ public class ShoppingController {
             price.setText(selectedItem.getPrice().toString());
             boughtPieces.setText("1");
             addToCart.disableProperty().setValue(false);
+            deleteCartItem.disableProperty().setValue(true);
         }
 
     }
@@ -72,27 +80,31 @@ public class ShoppingController {
     public void handleCartSelection(MouseEvent mouseEvent) {
         selectedItem = cart.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
+            barcode.setText(selectedItem.getBarcode().toString());
+            name.setText(selectedItem.getName());
+            price.setText(selectedItem.getPrice().toString());
             deleteCartItem.disableProperty().setValue(false);
         }
     }
 
     public void handleAddToCart(ActionEvent actionEvent) {
-        try {
-            selectedItem.setOnStorage(Integer.parseInt(boughtPieces.getText()));
-            Cart.addToCart(selectedItem);
-            setTableView(Cart.getCart(), cart);
-        } catch (NullPointerException e) {
-            new Popup("Nincs kiválasztott termék!", Alert.AlertType.WARNING);
+        if (takeFromStorage()) {
+            try {
+                selectedItem.setOnStorage(Integer.parseInt(boughtPieces.getText()));
+                Cart.addToCart(selectedItem);
+                setTableView(Cart.getCart(), cart);
+            } catch (NullPointerException e) {
+                new Popup("Nincs kiválasztott termék!", Alert.AlertType.WARNING);
+            }
+            addToCart.disableProperty().setValue(true);
+            int cost = (Integer.parseInt(totalCost.getText()) + Integer.parseInt(price.getText()) * Integer.parseInt(boughtPieces.getText()));
+            totalCost.setText(Integer.toString(cost));
+            switchPayability();
+            clearTexfields();
+        } else {
+            new Popup("Nincs raktáron " + boughtPieces.getText() + " a kívánt termékből!", Alert.AlertType.WARNING);
         }
-        addToCart.disableProperty().setValue(true);
-        if (Integer.parseInt(totalCost.getText()) > 0) {
-            endShopping.disableProperty().setValue(false);
-        }
-        int cost = (Integer.parseInt(totalCost.getText()) + Integer.parseInt(price.getText()) * Integer.parseInt(boughtPieces.getText()));
-        totalCost.setText(Integer.toString(cost));
-        for (TextField i : textFieldList) {
-            i.setText("");
-        }
+
     }
 
     public void handlePaying(ActionEvent actionEvent) {
@@ -110,9 +122,14 @@ public class ShoppingController {
     }
 
     public void handleBackToMain(ActionEvent actionEvent) {
-        if (new Popup("Biztosan kilépsz? Minden elvész a kosárból!", Alert.AlertType.CONFIRMATION).getResult()) {
-            Cart.setCart(new ArrayList<>());
-            new SearchDatabaseController().handleBack(new ActionEvent());
+        if (!Cart.getCart().isEmpty()) {
+            if (new Popup("Biztosan kilépsz? Minden elvész a kosárból!", Alert.AlertType.CONFIRMATION).getResult()) {
+                handleDeleteAllCartItem(actionEvent);
+                Cart.setCart(new ArrayList<>());
+                new SearchDatabaseController().handleBack(actionEvent);
+            }
+        } else {
+            new SearchDatabaseController().handleBack(actionEvent);
         }
 
     }
@@ -141,13 +158,80 @@ public class ShoppingController {
     }
 
     public void handleDeleteCartItem(ActionEvent actionEvent) {
-        ;
         if (selectedItem != null) {
+            backToStorage(selectedItem);
             int newCost = Integer.parseInt(totalCost.getText()) - (selectedItem.getPrice() * selectedItem.getOnStorage());
             totalCost.setText(Integer.toString(newCost));
             Cart.getCart().remove(selectedItem);
             setTableView(Cart.getCart(), cart);
             deleteCartItem.disableProperty().setValue(true);
+            switchPayability();
+        }
+    }
+
+    public void handleDeleteAllCartItem(ActionEvent actionEvent) {
+        if (new Popup("Minden elemet törölni fogsz a kosárból. Folytatod?", Alert.AlertType.CONFIRMATION).getResult()) {
+            try {
+                if (!Cart.getCart().isEmpty()) {
+                    Cart.getCart().stream().forEach(ware -> {
+                        selectedItem = ware;
+                        backToStorage(selectedItem);
+                    });
+                    Cart.setCart(new ArrayList<>());
+                    setTableView(Cart.getCart(), cart);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void backToStorage(Ware selectedItem) {
+        StringBuilder update = new StringBuilder("FROM Ware WHERE barcode = ");
+        update.append(selectedItem.getBarcode());
+        int onStorage = runQuery(update.toString()).get(0).getOnStorage();
+        update.delete(0, update.length());
+
+        update.append("UPDATE Ware set onStorage = ");
+        update.append(selectedItem.getOnStorage() + onStorage)
+                .append("WHERE barcode = ")
+                .append(selectedItem.getBarcode());
+        updateTable(update.toString());
+        setTableView(runQuery(null), table);
+    }
+
+    private boolean takeFromStorage() {
+        int amountToAdd = Integer.parseInt(boughtPieces.getText());
+        StringBuilder update = new StringBuilder();
+        update.append("FROM Ware WHERE barcode = ")
+                .append(selectedItem.getBarcode());
+        int totalAmount = runQuery(update.toString()).get(0).getOnStorage();
+        if (amountToAdd > 0 && totalAmount >= amountToAdd) {
+            update.delete(0, update.length());
+            update.append("UPDATE Ware set onStorage = ")
+                    .append(totalAmount - amountToAdd)
+                    .append("WHERE barcode =")
+                    .append(selectedItem.getBarcode());
+            updateTable(update.toString());
+            setTableView(runQuery(null), table);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void clearTexfields() {
+        for (TextField i : textFieldList) {
+            i.setText("");
+        }
+    }
+
+    private void switchPayability() {
+        if (Integer.parseInt(totalCost.getText()) > 0) {
+            endShopping.disableProperty().setValue(false);
+        } else {
+            endShopping.disableProperty().setValue(true);
         }
     }
 }

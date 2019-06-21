@@ -7,19 +7,19 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane styleClass="borderpane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="shopthing.controller.NewWareController"
             prefHeight="400.0" prefWidth="600.0">
     <top>
-
+        <Label text="Új áru" styleClass="title"/>
     </top>
     <center>
         <TableView fx:id="table" onMouseClicked="#handleSelection"/>
     </center>
     <bottom>
-        <VBox>
-            <HBox>
+        <VBox spacing="10.0">
+            <HBox spacing="10.0">
                 <Label text="Vonalkód:"/>
                 <TextField fx:id="barcode"/>
                 <Label text="Termék neve: "/>
@@ -29,13 +29,16 @@
                 <Label text="Beszerzett db: "/>
                 <TextField fx:id="newAmount"/>
             </HBox>
-            <HBox alignment="CENTER_RIGHT">
+            <HBox spacing="10.0" alignment="CENTER_RIGHT">
                 <Button onAction="#handleAdding" prefWidth="200" text="Hozzáad"/>
                 <Button onAction="#handleBack" prefWidth="200" text="Vissza"/>
             </HBox>
         </VBox>
     </bottom>
+    <opaqueInsets>
+        <Insets topRightBottomLeft="50.0"/>
+    </opaqueInsets>
     <padding>
-        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+        <Insets topRightBottomLeft="50.0"/>
     </padding>
 </BorderPane>
