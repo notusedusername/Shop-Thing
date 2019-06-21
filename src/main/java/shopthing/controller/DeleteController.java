@@ -89,10 +89,10 @@ public class DeleteController {
                 updateTable(changeCommand.toString());
                 setTableView(runQuery(null), table);
             } catch (Exception e) {
-                new Popup("A művelet nem sikerült, figyelj oda, nehogy már létező terméknevet akarj megadni!", "warning");
+                new Popup("A művelet nem sikerült, figyelj oda, nehogy már létező terméknevet akarj megadni!", Alert.AlertType.WARNING);
             }
         } else {
-            new Popup("Hiányzó érték!", "warning");
+            new Popup("Hiányzó érték!", Alert.AlertType.WARNING);
         }
     }
 
@@ -103,7 +103,7 @@ public class DeleteController {
             updateTable(changeCommand.toString());
             setTableView(runQuery(null), table);
         } else {
-            new Popup("Nem jelöltél ki semmit törlésre!", "warning");
+            new Popup("Nem jelöltél ki semmit törlésre!", Alert.AlertType.WARNING);
         }
     }
 

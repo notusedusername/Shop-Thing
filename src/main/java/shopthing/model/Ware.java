@@ -34,6 +34,12 @@ public class Ware {
     public Ware() {
     }
 
+    public Ware(Ware original) {
+        this.barcode = original.barcode;
+        this.name = original.name;
+        this.price = original.price;
+        this.onStorage = original.onStorage;
+    }
 
     public Integer getBarcode() {
         return barcode;

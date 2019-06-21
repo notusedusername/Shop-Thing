@@ -7,14 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import shopthing.model.Ware;
-
-import java.io.IOException;
-
-import static shopthing.controller.util.PopupUtil.getMessageType;
-
 
 public class ControllerUtil {
 
@@ -42,7 +36,7 @@ public class ControllerUtil {
         TableColumn<Ware, Integer> productPrice = new TableColumn<Ware, Integer>("Ár");
         productPrice.setCellValueFactory(new PropertyValueFactory("price"));
 
-        TableColumn<Ware, Integer> productOnStorage = new TableColumn<Ware, Integer>("Raktáron (db)");
+        TableColumn<Ware, Integer> productOnStorage = new TableColumn<Ware, Integer>("Darabszám");
         productOnStorage.setCellValueFactory(new PropertyValueFactory("onStorage"));
 
         table.getColumns().setAll(productBarCode, productName, productPrice, productOnStorage);

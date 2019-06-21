@@ -15,7 +15,7 @@
         </HBox>
     </top>
     <center>
-        <VBox alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="721.0" prefWidth="854.0">
             <Button fx:id="newWare" onAction="#handleNewWare" prefWidth="500" text="Új áru"/>
             <Button fx:id="shopping" onAction="#handleShopping" prefWidth="500" text="Vásárlás"/>
             <Button fx:id="search" onAction="#handleSearch" prefWidth="500" text="Keres"/>

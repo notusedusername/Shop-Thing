@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -26,7 +23,11 @@ import static shopthing.controller.util.ControllerUtil.*;
 public class ShoppingController {
 
     @FXML
+    Button deleteCartItem;
+    @FXML
     TableView<Ware> table;
+    @FXML
+    TableView<Ware> cart;
     @FXML
     TextField search;
     @FXML
@@ -49,6 +50,7 @@ public class ShoppingController {
 
     @FXML
     public void initialize() {
+        deleteCartItem.tooltipProperty().setValue(new Tooltip("A kosárból törli a kijelölt sort."));
         textFieldList.add(barcode);
         textFieldList.add(name);
         textFieldList.add(price);
@@ -56,7 +58,7 @@ public class ShoppingController {
     }
 
     public void handleSelection(MouseEvent mouseEvent) {
-        selectedItem = table.getSelectionModel().getSelectedItem();
+        selectedItem = new Ware(table.getSelectionModel().getSelectedItem());
         if (selectedItem != null) {
             barcode.setText(selectedItem.getBarcode().toString());
             name.setText(selectedItem.getName());
@@ -67,11 +69,20 @@ public class ShoppingController {
 
     }
 
+    public void handleCartSelection(MouseEvent mouseEvent) {
+        selectedItem = cart.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            deleteCartItem.disableProperty().setValue(false);
+        }
+    }
+
     public void handleAddToCart(ActionEvent actionEvent) {
         try {
+            selectedItem.setOnStorage(Integer.parseInt(boughtPieces.getText()));
             Cart.addToCart(selectedItem);
+            setTableView(Cart.getCart(), cart);
         } catch (NullPointerException e) {
-            new Popup("Nincs kiválasztott termék!", "warning");
+            new Popup("Nincs kiválasztott termék!", Alert.AlertType.WARNING);
         }
         addToCart.disableProperty().setValue(true);
         if (Integer.parseInt(totalCost.getText()) > 0) {
@@ -99,7 +110,11 @@ public class ShoppingController {
     }
 
     public void handleBackToMain(ActionEvent actionEvent) {
-        new SearchDatabaseController().handleBack(actionEvent);
+        if (new Popup("Biztosan kilépsz? Minden elvész a kosárból!", Alert.AlertType.CONFIRMATION).getResult()) {
+            Cart.setCart(new ArrayList<>());
+            new SearchDatabaseController().handleBack(new ActionEvent());
+        }
+
     }
 
     public void handleTyping(KeyEvent actionEvent) {
@@ -122,6 +137,17 @@ public class ShoppingController {
                 }
             }
 
+        }
+    }
+
+    public void handleDeleteCartItem(ActionEvent actionEvent) {
+        ;
+        if (selectedItem != null) {
+            int newCost = Integer.parseInt(totalCost.getText()) - (selectedItem.getPrice() * selectedItem.getOnStorage());
+            totalCost.setText(Integer.toString(newCost));
+            Cart.getCart().remove(selectedItem);
+            setTableView(Cart.getCart(), cart);
+            deleteCartItem.disableProperty().setValue(true);
         }
     }
 }

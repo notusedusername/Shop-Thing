@@ -1,35 +1,37 @@
 package shopthing.controller.util;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import shopthing.controller.MainApp;
 
-import java.io.IOException;
+import java.util.Optional;
 
-import static shopthing.controller.util.ControllerUtil.setStylesheets;
-import static shopthing.controller.util.PopupUtil.*;
 
 public class Popup {
 
-    public Popup(String message, String type) {
-        setMessageText(message);
-        setMessageType(type);
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/Popup.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private boolean confirmationResult = false;
 
-        Scene scene = new Scene(root);
-        setStylesheets(scene);
-        Stage stage = new Stage();
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(scene.getWindow());
-        stage.setScene(scene);
-        stage.setTitle(getMessageType());
-        stage.show();
+    public Popup(String message, Alert.AlertType type) {
+
+        Alert alert = new Alert(type);
+        alert.setTitle("ShopThing");
+
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(MainApp.primaryStage);
+
+        if (type == Alert.AlertType.CONFIRMATION) {
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                confirmationResult = true;
+            } else {
+                confirmationResult = false;
+            }
+        }
     }
+
+    public boolean getResult() {
+        return confirmationResult;
+    }
+
 }

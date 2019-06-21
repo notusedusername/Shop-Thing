@@ -5,6 +5,7 @@ import static shopthing.controller.util.ControllerUtil.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -41,7 +42,7 @@ public class NewWareController {
         if (newAmount.getText().equals("")) {
             amountNotSet();
         } else if (barcode.getText().equals("") || name.getText().equals("") || price.getText().equals("")) {
-            new Popup("Hiányzó mező!", "warning");
+            new Popup("Hiányzó mező!", Alert.AlertType.WARNING);
         } else {
             insertProduct();
             setTableView(runQuery(null), table);
@@ -60,7 +61,7 @@ public class NewWareController {
     }
 
     private void amountNotSet() {
-        new Popup("Nem adtad meg a beszerzett mennyiséget!", "warning");
+        new Popup("Nem adtad meg a beszerzett mennyiséget!", Alert.AlertType.WARNING);
     }
 
     private void insertProduct() {
@@ -69,7 +70,7 @@ public class NewWareController {
             unknownProduct = new Ware(Integer.parseInt(barcode.getText()),
                     name.getText().toUpperCase(), Integer.parseInt(price.getText()), Integer.parseInt(newAmount.getText()));
         } catch (NumberFormatException e) {
-            new Popup("Valamelyik érték érvénytelen!", "warning");
+            new Popup("Valamelyik érték érvénytelen!", Alert.AlertType.WARNING);
             return;
         }
         try {
@@ -93,7 +94,7 @@ public class NewWareController {
             previousStorage = runQuery(previousValueQuery.toString()).get(0).getOnStorage();
         } catch (Exception e) {
             if (e instanceof IndexOutOfBoundsException) {
-                new Popup("Raktáron lévő terméket akarsz megadni más adatokkal!", "warning");
+                new Popup("Raktáron lévő terméket akarsz megadni más adatokkal!", Alert.AlertType.WARNING);
             }
             return;
         }

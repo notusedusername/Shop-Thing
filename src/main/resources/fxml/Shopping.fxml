@@ -18,7 +18,7 @@
     <center>
         <HBox>
             <TableView fx:id="table" onMouseClicked="#handleSelection" HBox.hgrow="ALWAYS"/>
-            <TableView fx:id="cart" HBox.hgrow="ALWAYS"/>
+            <TableView fx:id="cart" onMouseClicked="#handleCartSelection" HBox.hgrow="ALWAYS"/>
         </HBox>
     </center>
     <bottom>
@@ -57,6 +57,10 @@
                 <Button fx:id="addToCart" disable="true" onAction="#handleAddToCart" prefWidth="200" text="Hozzáad"/>
                 <Button fx:id="endShopping" disable="true" onAction="#handlePaying" prefWidth="200" text="Fizet"/>
                 <Button onAction="#handleBackToMain" prefWidth="200" text="Vissza"/>
+                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+                    <Button fx:id="deleteCartItem" disable="true" onAction="#handleDeleteCartItem" prefWidth="200"
+                            text="Töröl"/>
+                </HBox>
             </HBox>
         </VBox>
     </bottom>

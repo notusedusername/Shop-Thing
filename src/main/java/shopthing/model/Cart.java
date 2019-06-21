@@ -1,13 +1,16 @@
 package shopthing.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 public class Cart {
 
     private static ArrayList<Ware> cart = new ArrayList<>();
 
-    public static ArrayList<Ware> getCart() {
-        return cart;
+    public static ObservableList<Ware> getCart() {
+        return FXCollections.observableList(cart);
     }
 
     public static void addToCart(Ware ware) {
