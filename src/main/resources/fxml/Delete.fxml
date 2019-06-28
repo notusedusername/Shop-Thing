@@ -39,9 +39,9 @@
             </HBox>
 
             <HBox spacing="10.0" alignment="CENTER_RIGHT">
-                <Button fx:id="changeValues" styleClass="dangerousAction" onAction="#handleChangeValues"
+                <Button styleClass="dangerousAction" onAction="#handleChangeValues"
                         text="ÉRTÉKEK LECSERLÉLÉSE"/>
-                <Button onAction="#handleBacktoMain" text="Vissza"/>
+                <Button onAction="#handleBack" text="Vissza"/>
             </HBox>
         </VBox>
     </center>

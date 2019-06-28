@@ -6,17 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import shopthing.controller.util.Popup;
 import shopthing.model.Ware;
 import shopthing.model.Cart;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static shopthing.controller.util.ControllerUtil.*;
 import static hibernate.H2Util.runQuery;
 import static hibernate.H2Util.updateTable;
 import static shopthing.controller.util.ControllerUtil.*;
@@ -62,6 +63,7 @@ public class ShoppingController {
         totalCost.setText(Integer.toString(cost));
         setTableView(runQuery(null), table);
         setTableView(Cart.getCart(), cart);
+        switchPayability();
     }
 
     public void handleSelection(MouseEvent mouseEvent) {
@@ -73,8 +75,16 @@ public class ShoppingController {
             boughtPieces.setText("1");
             addToCart.disableProperty().setValue(false);
             deleteCartItem.disableProperty().setValue(true);
+            boughtPieces.requestFocus();
         }
 
+    }
+
+    public void handleSelectionKey(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            handleSelection(null);
+            boughtPieces.requestFocus();
+        }
     }
 
     public void handleCartSelection(MouseEvent mouseEvent) {
@@ -93,8 +103,12 @@ public class ShoppingController {
                 selectedItem.setOnStorage(Integer.parseInt(boughtPieces.getText()));
                 Cart.addToCart(selectedItem);
                 setTableView(Cart.getCart(), cart);
-            } catch (NullPointerException e) {
-                new Popup("Nincs kiválasztott termék!", Alert.AlertType.WARNING);
+            } catch (Exception e) {
+                if (e instanceof NullPointerException) {
+                    new Popup("Nincs kiválasztott termék!", Alert.AlertType.WARNING);
+                } else if (e instanceof NumberFormatException) {
+                    new Popup("Érvényes darabszámot adj meg!", Alert.AlertType.WARNING);
+                }
             }
             addToCart.disableProperty().setValue(true);
             int cost = (Integer.parseInt(totalCost.getText()) + Integer.parseInt(price.getText()) * Integer.parseInt(boughtPieces.getText()));
@@ -104,6 +118,7 @@ public class ShoppingController {
         } else {
             new Popup("Nincs raktáron " + boughtPieces.getText() + " a kívánt termékből!", Alert.AlertType.WARNING);
         }
+        table.requestFocus();
 
     }
 
@@ -121,7 +136,7 @@ public class ShoppingController {
         setFullscreen(stage, scene);
     }
 
-    public void handleBackToMain(ActionEvent actionEvent) {
+    public void handleBack(ActionEvent actionEvent) {
         if (!Cart.getCart().isEmpty()) {
             if (new Popup("Biztosan kilépsz? Minden elvész a kosárból!", Alert.AlertType.CONFIRMATION).getResult()) {
                 handleDeleteAllCartItem(actionEvent);
@@ -235,6 +250,19 @@ public class ShoppingController {
             endShopping.disableProperty().setValue(false);
         } else {
             endShopping.disableProperty().setValue(true);
+        }
+    }
+
+    public void handleAddToCartKey(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            handleAddToCart(null);
+        }
+    }
+
+    public void handleKeyBoard(KeyEvent keyEvent) {
+
+        if (keyEvent.getCode() == KeyCode.ESCAPE) {
+            handleBack(null);
         }
     }
 }

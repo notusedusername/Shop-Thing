@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import shopthing.controller.util.Popup;
 import shopthing.model.Ware;
@@ -65,7 +67,7 @@ public class NewWareController {
     }
 
     private void insertProduct() {
-        Ware unknownProduct = null;
+        Ware unknownProduct;
         try {
             unknownProduct = new Ware(Integer.parseInt(barcode.getText()),
                     name.getText().toUpperCase(), Integer.parseInt(price.getText()), Integer.parseInt(newAmount.getText()));
@@ -94,7 +96,7 @@ public class NewWareController {
                 .append("\' AND price = ")
                 .append(price.getText());
 
-        Integer previousStorage = 0;
+        Integer previousStorage;
         try {
             previousStorage = runQuery(previousValueQuery.toString()).get(0).getOnStorage();
         } catch (Exception e) {
@@ -111,5 +113,9 @@ public class NewWareController {
         new Popup(updateTable(updateQuery.toString()).toString() + " sor módosult", Alert.AlertType.INFORMATION);
     }
 
-
+    public void handleSelectionKey(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            handleSelection(null);
+        }
+    }
 }

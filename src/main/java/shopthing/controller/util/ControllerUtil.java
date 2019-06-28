@@ -10,6 +10,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -43,16 +45,16 @@ public class ControllerUtil {
     public static void setTableView(ObservableList<Ware> listOfItems, TableView<Ware> table) {
         table.setItems(listOfItems);
 
-        TableColumn<Ware, Integer> productBarCode = new TableColumn<Ware, Integer>("Vonalkód");
+        TableColumn<Ware, Integer> productBarCode = new TableColumn<>("Vonalkód");
         productBarCode.setCellValueFactory(new PropertyValueFactory("barcode"));
 
-        TableColumn<Ware, String> productName = new TableColumn<Ware, String>("Név");
+        TableColumn<Ware, String> productName = new TableColumn<>("Név");
         productName.setCellValueFactory(new PropertyValueFactory("name"));
 
-        TableColumn<Ware, Integer> productPrice = new TableColumn<Ware, Integer>("Ár");
+        TableColumn<Ware, Integer> productPrice = new TableColumn<>("Ár");
         productPrice.setCellValueFactory(new PropertyValueFactory("price"));
 
-        TableColumn<Ware, Integer> productOnStorage = new TableColumn<Ware, Integer>("Darabszám");
+        TableColumn<Ware, Integer> productOnStorage = new TableColumn<>("Darabszám");
         productOnStorage.setCellValueFactory(new PropertyValueFactory("onStorage"));
 
         table.getColumns().setAll(productBarCode, productName, productPrice, productOnStorage);
@@ -60,14 +62,11 @@ public class ControllerUtil {
     }
 
     private static void setOnCloseOperation(Stage stage) {
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                if (new Popup("Adatvesztést okozhatsz! Biztosan folytatod?", Alert.AlertType.CONFIRMATION).getResult()) {
-                    Platform.exit();
-                } else {
-                    windowEvent.consume();
-                }
+        stage.setOnCloseRequest(windowEvent -> {
+            if (new Popup("Adatvesztést okozhatsz! Biztosan folytatod?", Alert.AlertType.CONFIRMATION).getResult()) {
+                Platform.exit();
+            } else {
+                windowEvent.consume();
             }
         });
     }

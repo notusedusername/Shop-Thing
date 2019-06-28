@@ -109,7 +109,7 @@ public class DeleteController {
         }
     }
 
-    public void handleBacktoMain(ActionEvent actionEvent) {
+    public void handleBack(ActionEvent actionEvent) {
         new SearchDatabaseController().handleBack(actionEvent);
     }
 
