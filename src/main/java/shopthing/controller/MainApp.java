@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import shopthing.controller.util.Popup;
 
 import java.io.File;
-import java.util.Optional;
+import java.io.IOException;
 
 import static shopthing.controller.util.ControllerUtil.*;
 
@@ -23,24 +23,38 @@ import static shopthing.controller.util.ControllerUtil.*;
 public class MainApp extends Application {
 
     public static Stage primaryStage;
+    public static File propsFile;
+
     @Override
     public void start(Stage stage) throws Exception {
         File propsFile = new File(System.getProperty("user.home") + "/ShopThing/db.properties");
+        primaryStage = stage;
+        MainApp.propsFile = propsFile;
+
         if (!propsFile.exists()) {
-            new Popup("Hiányzó " + System.getProperty("user.home") + "/ShopThing/db.properties fájl!", Alert.AlertType.ERROR);
-            if (new File(System.getProperty("user.home") + "/ShopThing").mkdir()) {
-                new Popup("A fájllal kapcsolatban segítség: https://github.com/notusedusername/Shop-Thing", Alert.AlertType.INFORMATION);
-            } else {
-                new Popup("A fájllal kapcsolatban segítség: https://github.com/notusedusername/Shop-Thing", Alert.AlertType.ERROR);
-            }
+            configDatabase();
         } else {
             setTableView(runQuery(null), new TableView<>());
-            primaryStage = stage;
+
             Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainMenu.fxml"));
 
             Scene scene = new Scene(root);
             setStylesheets(scene);
             setFullscreen(stage, scene);
+
+        }
+    }
+
+
+    private void configDatabase() throws IOException {
+        if (propsFile.createNewFile()) {
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/H2Settings.fxml"));
+            Scene scene = new Scene(root);
+            setStylesheets(scene);
+            setFullscreen(primaryStage, scene);
+
+        } else {
+            new Popup("Hiba új db.properties fájl létrehozása közben!", Alert.AlertType.ERROR);
         }
     }
 

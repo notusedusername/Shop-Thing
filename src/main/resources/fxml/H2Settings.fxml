@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane prefHeight="543.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="shopthing.controller.H2SettingsController">
+    <top>
+        <Label text="Adatbázis konfigurálás" BorderPane.alignment="CENTER"/>
+    </top>
+    <center>
+        <GridPane alignment="CENTER" hgap="10" vgap="10">
+            <Label text="Adatbázis elérési útja: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="path" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                       HBox.hgrow="NEVER"/>
+            <Button fx:id="browse" alignment="CENTER" contentDisplay="RIGHT" onAction="#handleBrowsing" prefWidth="100"
+                    text="Tallóz" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Felhasználónév: " GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="username" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Jelszó: " GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <PasswordField fx:id="password" alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <columnConstraints>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+            </rowConstraints>
+
+        </GridPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER_RIGHT">
+            <Button onAction="#handleSaveSettings" prefWidth="200" text="Beállít"/>
+            <Button onAction="#handleBack" prefWidth="200" text="Vissza"/>
+        </HBox>
+    </bottom>
+    <opaqueInsets>
+        <Insets topRightBottomLeft="50.0"/>
+    </opaqueInsets>
+    <padding>
+        <Insets topRightBottomLeft="50.0"/>
+    </padding>
+</BorderPane>

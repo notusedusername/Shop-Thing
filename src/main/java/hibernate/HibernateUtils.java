@@ -6,6 +6,7 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import shopthing.controller.MainApp;
 import shopthing.controller.util.Popup;
 
 import java.io.File;
@@ -33,6 +34,7 @@ public class HibernateUtils {
                 if (registry != null) {
                     new Popup("Nem megfelelő properties fájl!", Alert.AlertType.ERROR);
                     StandardServiceRegistryBuilder.destroy(registry);
+                    MainApp.propsFile.delete();
                 }
             }
         }
