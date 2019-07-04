@@ -8,3 +8,5 @@ To run the program, you will need a db.properties file, where you can specify yo
 This file takes place in the directory ${user.home}/ShopThing/.
 You have to specify the path, the username and the password.
 I will put an example file in this repository.
+The program uses a H2 database, you can get the engine from here:
+http://www.h2database.com/html/installation.html
