@@ -155,9 +155,9 @@ public class ShoppingController {
         } else {
             StringBuilder searchParameter;
             try {
-                searchParameter = new StringBuilder("FROM Ware WHERE barcode =");
+                searchParameter = new StringBuilder("FROM Ware WHERE barcode LIKE '%");
                 searchParameter.append(Integer.parseInt(search.getText()))
-                        .append(" OR price = ")
+                        .append("%' OR price = ")
                         .append(Integer.parseInt(search.getText()));
                 setTableView(runQuery(searchParameter.toString()), table);
             } catch (Exception e) {
@@ -206,15 +206,17 @@ public class ShoppingController {
     }
 
     private void backToStorage(Ware selectedItem) {
-        StringBuilder update = new StringBuilder("FROM Ware WHERE barcode = ");
-        update.append(selectedItem.getBarcode());
+        StringBuilder update = new StringBuilder("FROM Ware WHERE barcode = '");
+        update.append(selectedItem.getBarcode())
+                .append("'");
         int onStorage = runQuery(update.toString()).get(0).getOnStorage();
         update.delete(0, update.length());
 
         update.append("UPDATE Ware set onStorage = ");
         update.append(selectedItem.getOnStorage() + onStorage)
-                .append("WHERE barcode = ")
-                .append(selectedItem.getBarcode());
+                .append("WHERE barcode = '")
+                .append(selectedItem.getBarcode())
+                .append("'");
         updateTable(update.toString());
         setTableView(runQuery(null), table);
     }
@@ -222,15 +224,17 @@ public class ShoppingController {
     private boolean takeFromStorage() {
         int amountToAdd = Integer.parseInt(boughtPieces.getText());
         StringBuilder update = new StringBuilder();
-        update.append("FROM Ware WHERE barcode = ")
-                .append(selectedItem.getBarcode());
+        update.append("FROM Ware WHERE barcode = '")
+                .append(selectedItem.getBarcode())
+                .append("'");
         int totalAmount = runQuery(update.toString()).get(0).getOnStorage();
         if (amountToAdd > 0 && totalAmount >= amountToAdd) {
             update.delete(0, update.length());
             update.append("UPDATE Ware set onStorage = ")
                     .append(totalAmount - amountToAdd)
-                    .append("WHERE barcode =")
-                    .append(selectedItem.getBarcode());
+                    .append("WHERE barcode ='")
+                    .append(selectedItem.getBarcode())
+                    .append("'");
             updateTable(update.toString());
             setTableView(runQuery(null), table);
             return true;

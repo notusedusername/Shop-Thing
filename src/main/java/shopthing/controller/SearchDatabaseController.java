@@ -97,7 +97,7 @@ public class SearchDatabaseController {
         StringBuilder queryCommand = new StringBuilder("FROM Ware WHERE ");
         for (TextField i : searchConstraints) {
             queryCommand.append(i.getId());
-            if (i.getId().equals("name")) {
+            if (i.getId().equals("name") || i.getId().equals("barcode")) {
                 queryCommand.append(" LIKE \'%").append(i.getText().toUpperCase()).append("%\'").append(" AND ");
             } else {
                 queryCommand.append(" = ").append(i.getText()).append(" AND ");

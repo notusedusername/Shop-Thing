@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class Ware {
     @Id
     @Column(unique = true)
-    private Integer barcode;
+    private String barcode;
 
     @Column(unique = true)
     @NotNull
@@ -25,7 +25,7 @@ public class Ware {
     @Column
     private Integer onStorage;
 
-    public Ware(Integer barcode, String name, Integer price, Integer onStorage) {
+    public Ware(String barcode, String name, Integer price, Integer onStorage) {
         this.barcode = barcode;
         this.name = name;
         this.price = price;
@@ -42,11 +42,11 @@ public class Ware {
         this.onStorage = original.onStorage;
     }
 
-    public Integer getBarcode() {
+    public String getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(Integer barcode) {
+    public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
 

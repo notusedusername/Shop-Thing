@@ -59,13 +59,14 @@ public class DeleteController {
                     if (barCodeLock.isSelected()) {
                         changeCommand.append("UPDATE Ware set name = \'")
                                 .append(name.getText().toUpperCase())
-                                .append("\' WHERE barcode = ")
-                                .append(barcode.getText());
+                                .append("\' WHERE barcode = '")
+                                .append(barcode.getText())
+                                .append("'");
                         updateTable(changeCommand.toString());
                     } else if (nameLock.isSelected()) {
-                        changeCommand.append("UPDATE Ware set barcode = ")
+                        changeCommand.append("UPDATE Ware set barcode = \'")
                                 .append(barcode.getText())
-                                .append(" WHERE name = \'")
+                                .append("\' WHERE name = \'")
                                 .append(name.getText().toUpperCase())
                                 .append("\'");
                         updateTable(changeCommand.toString());
@@ -74,15 +75,17 @@ public class DeleteController {
                     changeCommand.delete(0, changeCommand.length())
                             .append("UPDATE Ware set price = ")
                             .append(price.getText())
-                            .append("WHERE barcode = ")
-                            .append(barcode.getText());
+                            .append("WHERE barcode = \'")
+                            .append(barcode.getText())
+                            .append("\'");
                     updateTable(changeCommand.toString());
 
                     changeCommand.delete(0, changeCommand.length())
                             .append("UPDATE Ware set onStorage = ")
                             .append(onStorage.getText())
-                            .append("WHERE barcode = ")
-                            .append(barcode.getText());
+                            .append("WHERE barcode = \'")
+                            .append(barcode.getText())
+                            .append("\'");
                     updateTable(changeCommand.toString());
                     setTableView(runQuery(null), table);
                 } catch (Exception e) {
@@ -99,8 +102,9 @@ public class DeleteController {
     public void handleDeleteRecord(ActionEvent actionEvent) {
         if (newKnownWare != null) {
             if (new Popup("Biztosan törlöd? Nem visszavonható művelet!", Alert.AlertType.CONFIRMATION).getResult()) {
-                StringBuilder changeCommand = new StringBuilder("DELETE FROM Ware WHERE barcode = ")
-                        .append(barcode.getText());
+                StringBuilder changeCommand = new StringBuilder("DELETE FROM Ware WHERE barcode = \'")
+                        .append(barcode.getText())
+                        .append("\'");
                 updateTable(changeCommand.toString());
                 setTableView(runQuery(null), table);
             }

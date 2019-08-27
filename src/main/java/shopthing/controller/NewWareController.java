@@ -69,7 +69,7 @@ public class NewWareController {
     private void insertProduct() {
         Ware unknownProduct;
         try {
-            unknownProduct = new Ware(Integer.parseInt(barcode.getText()),
+            unknownProduct = new Ware(barcode.getText(),
                     name.getText().toUpperCase(), Integer.parseInt(price.getText()), Integer.parseInt(newAmount.getText()));
         } catch (NumberFormatException e) {
             new Popup("Valamelyik érték érvénytelen!", Alert.AlertType.WARNING);
@@ -89,9 +89,9 @@ public class NewWareController {
     }
 
     private void updateKnownProduct() {
-        StringBuilder previousValueQuery = new StringBuilder("FROM Ware WHERE barcode = ")
+        StringBuilder previousValueQuery = new StringBuilder("FROM Ware WHERE barcode = \'")
                 .append(barcode.getText())
-                .append(" AND name = \'")
+                .append("\' AND name = \'")
                 .append(name.getText().toUpperCase())
                 .append("\' AND price = ")
                 .append(price.getText());
